@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <Reference Include="Ribbit.NET">
-      <HintPath>..\..\..\GitHub\Ribbit.NET\Ribbit.NET\bin\Debug\netcoreapp2.1\Ribbit.NET.dll</HintPath>
+      <HintPath>..\Rebbit.NET\Ribbit.NET\bin\Release\netcoreapp2.1\Ribbit.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
 

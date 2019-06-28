@@ -50,7 +50,7 @@ namespace BuildBackup
                         else if(response.StatusCode == System.Net.HttpStatusCode.NotFound && !url.StartsWith("http://client04"))
                         {
                             Console.WriteLine("Not found on primary mirror, retrying on secondary mirror...");
-                            return Get("http://client04.pdl.wow.battlenet.com.cn/" + cleanname, returnstream, redownload);
+                            return Get("http://client04.pdl.wow.battlenet.com.cn" + cleanname, returnstream, redownload);
                         }
                         else
                         {
