@@ -23,7 +23,7 @@ namespace BuildBackup
                 try
                 {
                     if (!Directory.Exists(cacheDir + cleanname)) { Directory.CreateDirectory(Path.GetDirectoryName(cacheDir + cleanname)); }
-                    //Console.Write("\nDownloading " + cleanname);
+                    Console.Write("\nDownloading " + cleanname);
                     using (HttpResponseMessage response = client.GetAsync(uri).Result)
                     {
                         if (response.IsSuccessStatusCode)
@@ -32,7 +32,11 @@ namespace BuildBackup
                             using (HttpContent res = response.Content)
                             {
                                 res.CopyToAsync(mstream);
-
+                                if (url.StartsWith("http://188.165.192.135/1"))
+                                {
+                                    cleanname = cleanname.Substring(2);
+                                    cleanname = "/tpr/wow/data/" + cleanname;
+                                }
                                 if (isEncrypted)
                                 {
                                     var cleaned = Path.GetFileNameWithoutExtension(cleanname);
@@ -47,21 +51,27 @@ namespace BuildBackup
                                 }
                             }
                         }
-                        else if(response.StatusCode == System.Net.HttpStatusCode.NotFound && !url.StartsWith("http://client04"))
+                        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound && !url.StartsWith("http://188.165.192.135/"))
                         {
-                            Console.WriteLine("Not found on primary mirror, retrying on secondary mirror...");
-                            return Get("http://client04.pdl.wow.battlenet.com.cn/" + cleanname, returnstream, redownload);
+                            Console.WriteLine("\nNot found on primary mirror, retrying on secondary mirror...");
+                            return Get("http://188.165.192.135" + cleanname, returnstream, redownload);
+                        }
+                        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound && url.StartsWith("http://188.165.192.135") && !url.StartsWith("http://188.165.192.135/1"))
+                        {
+                            Console.WriteLine("\nNot found on secondary mirror, retrying on last mirror...");
+                            string ncleanname = cleanname.Substring(14);
+                            return Get("http://188.165.192.135/1/" + ncleanname, returnstream, redownload);
                         }
                         else
                         {
-                            throw new FileNotFoundException("Error retrieving file: HTTP status code " + response.StatusCode + " on URL " + url);
+                            throw new FileNotFoundException("\nError retrieving file: HTTP status code " + response.StatusCode + " on URL " + url);
                         }
 
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("!!! Error retrieving file " + url + ": " + e.Message);
+                    Console.WriteLine("\n!!! Error retrieving file " + url + ": " + e.Message);
                     File.AppendAllText("failedfiles.txt", url + "\n");
                 }
             }
