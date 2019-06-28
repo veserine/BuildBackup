@@ -14,7 +14,8 @@ namespace BuildBackup
         public static void LoadSettings()
         {
             var config = new ConfigurationBuilder().AddJsonFile("config.json", optional: false, reloadOnChange: false).Build();
-            cacheDir = config.GetSection("config")["cacheDir"];
+            //cacheDir = config.GetSection("config")["cacheDir"];
+            cacheDir = config.GetSection("cacheDir").Value;
         }
     }
 }

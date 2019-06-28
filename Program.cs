@@ -48,7 +48,7 @@ namespace BuildBackup
         {
             cdn.cacheDir = SettingsManager.cacheDir;
             cdn.client = new HttpClient();
-            cdn.client.Timeout = new TimeSpan(0, 0, 5);
+            cdn.client.Timeout = new TimeSpan(0, 30, 0);
 
             // Check if cache/backup directory exists
             if (!Directory.Exists(cdn.cacheDir)) { Directory.CreateDirectory(cdn.cacheDir); }
@@ -1302,7 +1302,7 @@ namespace BuildBackup
                     }
                     else
                     {
-                        throw new Exception("Bad HTTP code while retrieving");
+                        throw new Exception("Bad HTTP code while retrieving: " + baseUrl + program + "/" + "blob/game");
                     }
                 }
             }
